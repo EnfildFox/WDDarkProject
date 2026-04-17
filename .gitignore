@@ -1,5 +1,10 @@
-"*.exe" 
-"*.obj" 
-"*.log" 
-"BuilderOutput/" 
-".vs/" 
+*.exe
+*.obj
+*.log
+BuilderOutput/
+.vs/
+*.suo
+*.user
+*.cache
+Debug/
+Release/
