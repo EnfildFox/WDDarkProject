@@ -1,6 +1,7 @@
 #include "config.h"
 #include "network.h"
 #include "persistence.h"
+#include "screenshot_demo.h"
 
 #include <windows.h>
 #include <shellapi.h>
@@ -232,6 +233,43 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
         const bool installTask = has_argument(arguments, L"--install");
         const bool installRegistry = has_argument(arguments, L"--install-reg");
+        const bool screenshotDemo = has_argument(arguments, L"--screenshot-demo");
+        const bool demoPing = has_argument(arguments, L"--demo-ping");
+
+        if (demoPing) {
+            log_debug("[DEMO] pong");
+            if (mutexHandle != NULL) {
+                CloseHandle(mutexHandle);
+            }
+            return 0;
+        }
+
+        if (screenshotDemo) {
+            const int confirmation = MessageBoxA(
+                NULL,
+                "Capture a local demo screenshot and save it next to core.exe?",
+                "TitanLab Screenshot Demo",
+                MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2
+            );
+
+            if (confirmation == IDYES) {
+                capture_screenshot_demo();
+                log_debug("[DEMO] Screenshot captured and saved to screenshot_demo.bmp");
+                MessageBoxA(
+                    NULL,
+                    "Demo screenshot saved to screenshot_demo.bmp",
+                    "TitanLab Screenshot Demo",
+                    MB_OK | MB_ICONINFORMATION
+                );
+            } else {
+                log_debug("[DEMO] Screenshot demo cancelled by user.");
+            }
+
+            if (mutexHandle != NULL) {
+                CloseHandle(mutexHandle);
+            }
+            return 0;
+        }
 
         if (installTask || installRegistry) {
             if (installTask) {

@@ -3,6 +3,8 @@
 *.log
 BuilderOutput/
 .vs/
+bin/
+obj/
 *.suo
 *.user
 *.cache
