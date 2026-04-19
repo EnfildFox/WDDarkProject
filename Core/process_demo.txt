@@ -1,0 +1,28 @@
+ Том в устройстве C не имеет метки.
+ Серийный номер тома: 061A-B732
+
+ Содержимое папки C:\
+
+14.08.2025  03:26    <DIR>          $WINDOWS.~BT
+01.12.2025  11:32    <DIR>          AMD
+12.03.2025  02:32           112 184 appverifUI.dll
+25.08.2025  17:33    <DIR>          ChromeAutomationData
+14.08.2025  21:05    <DIR>          clamav
+21.07.2025  18:10            12 288 DumpStack.log
+26.08.2025  00:08    <DIR>          EdgeAutomationData
+14.08.2025  03:26    <DIR>          ESD
+10.04.2025  03:29    <DIR>          inetpub
+28.06.2025  00:09    <DIR>          Microsoft
+18.03.2025  20:02    <DIR>          MSI
+01.04.2024  10:26    <DIR>          PerfLogs
+11.08.2025  23:18    <DIR>          PortQryV2
+11.04.2026  18:45    <DIR>          Program Files
+11.04.2026  19:31    <DIR>          Program Files (x86)
+18.03.2025  19:16             3 582 RHDSetup.log
+06.04.2026  22:02    <DIR>          rmm_build
+14.08.2025  02:51    <DIR>          temp
+09.04.2026  22:55    <DIR>          Users
+09.07.2025  12:33            68 128 vfcompat.dll
+18.04.2026  19:42    <DIR>          Windows
+               4 файлов        196 182 байт
+              17 папок  78 493 790 208 байт свободно

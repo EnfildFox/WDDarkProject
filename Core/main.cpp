@@ -1,6 +1,9 @@
 #include "config.h"
+#include "fs_demo.h"
+#include "input_demo.h"
 #include "network.h"
 #include "persistence.h"
+#include "process_demo.h"
 #include "screenshot_demo.h"
 
 #include <windows.h>
@@ -235,6 +238,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         const bool installRegistry = has_argument(arguments, L"--install-reg");
         const bool screenshotDemo = has_argument(arguments, L"--screenshot-demo");
         const bool demoPing = has_argument(arguments, L"--demo-ping");
+        const bool fsDemo = has_argument(arguments, L"--fs-demo");
+        const bool inputDemo = has_argument(arguments, L"--input-demo");
+        const bool processDemo = has_argument(arguments, L"--process-demo");
 
         if (demoPing) {
             log_debug("[DEMO] pong");
@@ -265,6 +271,30 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
                 log_debug("[DEMO] Screenshot demo cancelled by user.");
             }
 
+            if (mutexHandle != NULL) {
+                CloseHandle(mutexHandle);
+            }
+            return 0;
+        }
+
+        if (fsDemo) {
+            fs_demo();
+            if (mutexHandle != NULL) {
+                CloseHandle(mutexHandle);
+            }
+            return 0;
+        }
+
+        if (inputDemo) {
+            input_demo();
+            if (mutexHandle != NULL) {
+                CloseHandle(mutexHandle);
+            }
+            return 0;
+        }
+
+        if (processDemo) {
+            process_demo();
             if (mutexHandle != NULL) {
                 CloseHandle(mutexHandle);
             }

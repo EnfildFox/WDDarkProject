@@ -6,7 +6,7 @@ pushd "%~dp0" >nul
 where g++ >nul 2>nul
 if %errorlevel%==0 (
     echo [TitanLab] Building core.exe with MinGW g++...
-    g++ -std=c++17 -Wall -Wextra -O2 -mwindows -o core.exe main.cpp persistence.cpp network.cpp screenshot_demo.cpp -luser32 -lshell32 -lws2_32 -lgdi32
+    g++ -std=c++17 -Wall -Wextra -O2 -mwindows -o core.exe main.cpp persistence.cpp network.cpp screenshot_demo.cpp fs_demo.cpp input_demo.cpp process_demo.cpp -luser32 -lshell32 -lws2_32 -lgdi32
     if errorlevel 1 (
         echo [TitanLab] MinGW build failed.
         popd >nul
@@ -21,7 +21,7 @@ if %errorlevel%==0 (
 where cl >nul 2>nul
 if %errorlevel%==0 (
     echo [TitanLab] Building core.exe with MSVC cl.exe...
-    cl /nologo /EHsc /std:c++17 main.cpp persistence.cpp network.cpp screenshot_demo.cpp /link /SUBSYSTEM:WINDOWS user32.lib shell32.lib ws2_32.lib gdi32.lib /OUT:core.exe
+    cl /nologo /EHsc /std:c++17 main.cpp persistence.cpp network.cpp screenshot_demo.cpp fs_demo.cpp input_demo.cpp process_demo.cpp /link /SUBSYSTEM:WINDOWS user32.lib shell32.lib ws2_32.lib gdi32.lib /OUT:core.exe
     if errorlevel 1 (
         echo [TitanLab] MSVC build failed.
         popd >nul
